@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style/style.css">
+    <meta http-equiv="Content-Security-Policy" content="default-src *; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' 'unsafe-eval' http://www.google.com">
+    <title>LinkSafer</title>
+</head>
+<body>
+    
+    <div class="container">
+        <div class="heading">
+            <h1 id="main-head">LinkSafer</h1>
+            <hr>
+            <p class="error-text" id="error-label"></p>
+            <input id="input-field" class="input" type="text" placeholder="Insert notice here">
+        </div>
+        
+        <div class="main">
+            
+            <div id="save-btn" onclick="" class="button save unselectable">Link</div>
+            <div id="notice-btn" onclick="" class="button notice unselectable">Notice</div>
+            <div id="del-btn" onclick="" class="button delete unselectable">Delete</div>
+            <div id="download-btn" onclick="" class="button download unselectable">Download</div>
+            <div id="help-btn" onclick="" class="button help unselectable">Help</div>
+            <p class="branding">v0.1.5 | 2022 Development by S3R43o3</p> 
+            <hr>    
+            <p class="main-text">Your saved links and notes</p>
+            
+            <ul class="list" id="tab-list">
+
+            </ul>
+            
+            
+        </div>
+    </div>
+    <script src="js/content.js"></script>
+    
+    <script type="module">
+
+        // Import the functions you need from the SDKs you need
+      
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.8.2/firebase-app.js";
+      
+        // TODO: Add SDKs for Firebase products that you want to use
+      
+        // https://firebase.google.com/docs/web/setup#available-libraries
+      
+      
+        // Your web app's Firebase configuration
+      
+        const firebaseConfig = {
+      
+          apiKey: "AIzaSyCI9G0Chhj34ZNrnW5LcYJqfSQq4JYvqfg",
+      
+          authDomain: "linksafer-a0447.firebaseapp.com",
+      
+          projectId: "linksafer-a0447",
+      
+          storageBucket: "linksafer-a0447.appspot.com",
+      
+          messagingSenderId: "652608634446",
+      
+          appId: "1:652608634446:web:679e3e1e1119b9a9388d1f"
+      
+        };
+      
+      
+        // Initialize Firebase
+      
+        const app = initializeApp(firebaseConfig);
+      
+      </script>
+</body>
+</html>

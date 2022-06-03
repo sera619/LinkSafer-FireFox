@@ -1,0 +1,43 @@
+{
+	"manifest_version": 2,
+	"name": "LinkSafer",
+	"version": "0.1.2",
+	"description": "A small extension to manage notes and temporary links",
+	"content_scripts": [{
+		"matches": ["<all_urls>"],
+		"js": ["js/content.js"],
+		"run_at": "document_end"
+
+	}],
+	"applications": {
+		"gecko": {
+			"id": "S3R43o3@creativedudes.com"
+		}
+	},
+	"icons":{
+		"96":"assets/icon/blueicon_256.png",
+		"256": "assets/icon/blueicon_256.png"
+	},
+	"browser_action": {
+		"default_title": "LinkSafer",
+		"default_popup": "popup.html",
+		"default_icon": "assets/icon/blueicon_256.png"
+	},
+	"options_ui":{
+		"page": "help.html",
+		"open_in_tab": false,
+		"chrome_style": true
+	},
+	"permissions":[
+		"activeTab",
+		"tabs",
+		"storage",
+		"contextMenus",
+		"nativeMessaging",
+		"downloads",
+		"webNavigation",
+		"notifications",
+		"sessions"
+	]
+
+}
