@@ -1,7 +1,7 @@
 {
 	"manifest_version": 2,
 	"name": "LinkSafer",
-	"version": "0.1.4",
+	"version": "0.1.5",
 	"description": "A small extension to manage notes and temporary links",
 	"content_scripts": [{
 		"matches": ["<all_urls>"],

@@ -10,10 +10,6 @@ const inputField = document.getElementById('input-field');
 const errorLabel = document.getElementById('error-label');
 const helpBTN = document.getElementById('help-btn');
 let note = "note";
-if (linksFromStorage) {
-    myLinks = linksFromStorage;
-    UpdateLinks(myLinks);
-}
 
 /*
 window.onload = () => {
@@ -36,6 +32,13 @@ window.onload = () => {
     });
 }
 */
+
+window.addEventListener('DOMContentLoaded', () => {
+    if (linksFromStorage) {
+        myLinks = linksFromStorage;
+        UpdateLinks(myLinks);
+    }
+    
 helpBTN.addEventListener("click", () => {
     browser.tabs.create({
         active: true,
@@ -72,13 +75,13 @@ deleteBTN.addEventListener('click', function () {
 downloadBTN.addEventListener('click', function () {
     downloadList();
 })
-
+});
 
 
 
 
 function downloadList() {
-    if (myLinks.length <= 0) {
+    if (myLinks == []) {
         let header = 'Your List of Links from LinkSafer\nThanks for enjoying my software.\nS3R43o3\n\n';
         var today = new Date();
         var time = today.getDay() + "." + today.getMonth() + "." + today.getFullYear() + " " + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
@@ -154,7 +157,7 @@ browser.browserAction.onClicked.addListener(() => {
 
 
 function UpdateLinks(new_links) {
-    var listItems="";
+    let listItems="";
     for (let i = 0; i < new_links.length; i++) {
         listItems += `<li><a id='a' style='overflow: hidden;' href='${new_links[i]}' target='_blank'><br/>${new_links[i]}</a></li>`;
 
