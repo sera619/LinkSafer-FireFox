@@ -131,14 +131,13 @@ function errorNoInput() {
 
 function saveNotice() {
     if (inputField.value == "") {
-        // browser.notifications.create(note,{
-        //     type: "basic",
-        //     iconUrl: "assets/icon/Foursquare-icon.png",
-        //     title: "ERROR 3o3",
-        //     message: "Your Inputfield is empty, cant save empty value!"
-        // })
-        errorNoInput();
-    } else {
+        browser.notifications.create(note,{
+             type: "basic",
+             iconUrl: "assets/icon/Foursquare-icon.png",
+             title: "ERROR 3o3",
+             message: "Your Inputfield is empty, cant save empty value!"
+
+        })} else {
         myLinks.push(inputField.value);
         localStorage.setItem("myLinks", JSON.stringify(myLinks));
         UpdateLinks(myLinks);
@@ -155,12 +154,13 @@ browser.browserAction.onClicked.addListener(() => {
 
 
 function UpdateLinks(new_links) {
-    const listItems = "";
+    var listItems="";
     for (let i = 0; i < new_links.length; i++) {
         listItems += `<li><a id='a' style='overflow: hidden;' href='${new_links[i]}' target='_blank'><br/>${new_links[i]}</a></li>`;
 
     }
-    listElement.innerHTML = listItems;
+    const list = listItems;
+    listElement.innerHTML = list;
 
 }
 
