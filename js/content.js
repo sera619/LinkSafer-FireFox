@@ -159,13 +159,19 @@ browser.browserAction.onClicked.addListener(() => {
 function UpdateLinks(new_links) {
     let listItems="";
     for (let i = 0; i < new_links.length; i++) {
-        listItems += `<li><a id='a' style='overflow: hidden;' href='${new_links[i]}' target='_blank'><br/>${new_links[i]}</a></li>`;
+        if (new_links[i].includes("http") ) {
+            listItems += `<li><a id='a' style='overflow: hidden;' href='${new_links[i]}' target='_blank'><br/>${new_links[i]}</a></li>`;
+         
+        }else{
+            listItems += `<li><a id='a' style='overflow: hidden; text-decoration: none;' href='#' ><br/>${new_links[i]}</a></li>`;
+        }
 
     }
     const list = listItems;
     listElement.innerHTML = list;
 
 }
+
 
 
 
