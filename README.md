@@ -8,7 +8,7 @@ You can take this for your own purposes.
 
 > If you use this addon, pls take a second and let some stars there =). Thanks!
 >
-> **Have trouble?** Donst by shy and conact me oder open a new issue, i will respond as soon as possible. 
+> **Have trouble?** Donst be shy! Conact me oder open a new issue, i will respond as soon as possible.
 
 #### Preview ####
 
