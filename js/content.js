@@ -1,5 +1,6 @@
 //document.body.style.border = "5px solid red";
 let myLinks = [];
+let listItems="";
 let linksFromStorage = JSON.parse(localStorage.getItem("myLinks"));
 const downloadBTN = document.getElementById('download-btn');
 const deleteBTN = document.getElementById('del-btn');
@@ -9,29 +10,8 @@ const listElement = document.getElementById('tab-list');
 const inputField = document.getElementById('input-field');
 const errorLabel = document.getElementById('error-label');
 const helpBTN = document.getElementById('help-btn');
+const listParent = document.getElementById('listParent');
 let note = "note";
-
-/*
-window.onload = () => {
-    var mutationObserver = new MutationObserver(function (mutations) {
-        mutations.forEach(function (mutation) {
-            if (mutation.target && mutation.target.innerText.indexof('ytp-ad-skip-button') != -1) {
-                mutation.target.click();
-                console.log("Ad skipped");
-            }else{
-                return;
-            }
-        });
-    })
-
-    mutationObserver.observe(document.body, {
-        attributes: true,
-        childList: true,
-        characterData: true,
-        subtree: true
-    });
-}
-*/
 
 window.addEventListener('DOMContentLoaded', () => {
     if (linksFromStorage) {
@@ -156,23 +136,29 @@ browser.browserAction.onClicked.addListener(() => {
 })
 
 
-function UpdateLinks(new_links) {
-    let listItems="";
-    for (let i = 0; i < new_links.length; i++) {
-        if (new_links[i].includes("http") ) {
-            listItems += `<li><a id='a' style='overflow: hidden;' href='${new_links[i]}' target='_blank'><br/>${new_links[i]}</a></li>`;
-         
+function UpdateLinks(links) {
+    listItems = "";
+    const firstPart =`<li><a id='a' style='overflow: hidden; text-decoration: none;' target='_blank' href='`; 
+    const secondPart = `'><br/>`;
+    const lastPart = `</a></li>`;
+    
+    const withOutHttp = "<li><a id='a' style='overflow: hidden; text-decoration: none;' href='#";
+    
+    for (let i = 0; i < links.length; i++) {
+        if (links[i].includes("http")) {
+            listItems += firstPart + `${links[i]}` + secondPart + `${links[i]}` + lastPart;
         }else{
-            listItems += `<li><a id='a' style='overflow: hidden; text-decoration: none;' href='#' ><br/>${new_links[i]}</a></li>`;
+            listItems += withOutHttp + secondPart + `${links[i]}` + lastPart;
         }
-
     }
-    const list = listItems;
-    listElement.innerHTML = list;
-
+    listElement.innerHTML = listItems;
 }
 
 
+
+class ListContainer extends HTMLElement {
+
+}
 
 
 function DownloadContainer(text, fileType, fileName) {
