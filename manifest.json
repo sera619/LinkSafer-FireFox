@@ -1,18 +1,16 @@
 {
 	"manifest_version": 2,
 	"name": "LinkSafer",
-	"version": "0.1.6",
+	"version": "0.1.7",
 	"description": "A small extension to manage notes and temporary links",
-	"content_scripts": [{
-		"matches": ["<all_urls>"],
-		"js": ["js/content.js"],
-		"run_at": "document_end"
-
-	}],
 	"applications": {
 		"gecko": {
 			"id": "S3R43o3@creativedudes.com"
 		}
+	},
+	"background": {
+		"scripts": ["js/content.js"]
+	
 	},
 	"icons":{
 		"96":"assets/icon/blueicon_256.png",

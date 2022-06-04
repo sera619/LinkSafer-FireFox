@@ -1,6 +1,5 @@
 //document.body.style.border = "5px solid red";
 let myLinks = [];
-let listItems="";
 let linksFromStorage = JSON.parse(localStorage.getItem("myLinks"));
 const downloadBTN = document.getElementById('download-btn');
 const deleteBTN = document.getElementById('del-btn');
@@ -18,54 +17,55 @@ window.addEventListener('DOMContentLoaded', () => {
         myLinks = linksFromStorage;
         UpdateLinks(myLinks);
     }
-    
-helpBTN.addEventListener("click", () => {
-    browser.tabs.create({
-        active: true,
-        url: "help.html",
-    }, null);
-});
 
-
-
-
-
-
-saveBTN.addEventListener('click', function (tabs) {
-    browser.tabs.query({
-        active: true,
-        currentWindow: true
-    }, function (tabs) {
-        myLinks.push(tabs[0].url);
-        localStorage.setItem("myLinks", JSON.stringify(myLinks));
-        UpdateLinks(myLinks);
-
-
+    helpBTN.addEventListener("click", () => {
+        browser.tabs.create({
+            active: true,
+            url: "help.html",
+        }, null);
     });
-})
 
-noticeBTN.addEventListener('click', function () {
-    saveNotice();
+    saveBTN.addEventListener('click', (tabs) => {
+        browser.tabs.query({
+            active: true,
+            currentWindow: true
+        }, function (tabs) {
+            myLinks.push(tabs[0].url);
+            localStorage.setItem("myLinks", JSON.stringify(myLinks));
+            UpdateLinks(myLinks);
 
-})
-deleteBTN.addEventListener('click', function () {
-    deleteList();
 
-})
-downloadBTN.addEventListener('click', function () {
-    downloadList();
-})
+        });
+    })
+
+    noticeBTN.addEventListener('click', () => {
+        saveNotice();
+
+    })
+    deleteBTN.addEventListener('click', () => {
+        deleteList();
+
+    })
+    downloadBTN.addEventListener('click', () => {
+        downloadList();
+    })
+    browser.browserAction.onClicked.addListener(() => {
+        let clearing = browser.notifications.clear(note);
+        clearing.then(() => {
+            console.log("cleared");
+        });
+    })
 });
 
 
 
 
 function downloadList() {
-    if (myLinks == []) {
-        let header = 'Your List of Links from LinkSafer\nThanks for enjoying my software.\nS3R43o3\n\n';
+    if (myLinks != []) {
+        const header = 'Your List of Links from LinkSafer\nThanks for enjoying my software.\nS3R43o3\n\n';
         var today = new Date();
         var time = today.getDay() + "." + today.getMonth() + "." + today.getFullYear() + " " + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-        let footer = '\n\nFile created at:\n' + time;
+        const footer = '\n\nFile created at:\n' + time;
         DownloadContainer(header + myLinks.join("\n") + footer, "text/list", 'LinkSafer-List.txt');
 
     } else {
@@ -78,7 +78,6 @@ function downloadList() {
 
     }
 
-
 }
 
 
@@ -89,14 +88,15 @@ function errorNoInput() {
         if (Notification.permission === "granted") {
             var noteUser = new Notification("ERROR 3o3", {
                 body: "Your Inputfield is empty, cant save empty value!",
-                icon: "assets/icon/Foursquare-icon.png",
+                icon: "assets/icon/blueicon_256.png",
             });
+            notifications.create(noteUser);
         } else {
             Notification.requestPermission()
                 .then(function (p) {
                     if (p === "granted") {
                         var noteUser2 = new Notification("ERROR!", {
-                            body: "Your Inputfield is empty, cant save nothing!",
+                            body: "Your Inputfield is empty, cant save empty value!",
                             icon: "assets/icon/blueicon_256.png",
                         });
                         notifications.create(noteUser2);
@@ -114,13 +114,14 @@ function errorNoInput() {
 
 function saveNotice() {
     if (inputField.value == "") {
-        browser.notifications.create(note,{
-             type: "basic",
-             iconUrl: "assets/icon/Foursquare-icon.png",
-             title: "ERROR 3o3",
-             message: "Your Inputfield is empty, cant save empty value!"
+        browser.notifications.create(note, {
+            type: "basic",
+            iconUrl: "assets/icon/blueicon_256.png",
+            title: "ERROR 3o3",
+            message: "Your Inputfield is empty, cant save empty value!"
 
-        })} else {
+        })
+    } else {
         myLinks.push(inputField.value);
         localStorage.setItem("myLinks", JSON.stringify(myLinks));
         UpdateLinks(myLinks);
@@ -128,38 +129,29 @@ function saveNotice() {
 }
 
 
-browser.browserAction.onClicked.addListener(() => {
-    let clearing = browser.notifications.clear(note);
-    clearing.then(() => {
-        console.log("cleared");
-    });
-})
+
 
 
 function UpdateLinks(links) {
-    listItems = "";
-    const firstPart =`<li><a id='a' style='overflow: hidden; text-decoration: none;' target='_blank' href='`; 
-    const secondPart = `'><br/>`;
-    const lastPart = `</a></li>`;
-    
-    const withOutHttp = "<li><a id='a' style='overflow: hidden; text-decoration: none;' href='#";
-    
+    const firstPart = "<li><a id='a' style='overflow: hidden; text-decoration: underline;' target='_blank' href='";
+    const secondPart = "'><br/>";
+    const lastPart = '</a></li>';
+    const protocol = "http";
+    const withOutHttp = "<li><a id='a' style='overflow: hidden; text-decoration: none;' ";
+    const withOutHttp2 = "><br/>";
+    var listItems = "";
     for (let i = 0; i < links.length; i++) {
-        if (links[i].includes("http")) {
-            listItems += firstPart + `${links[i]}` + secondPart + `${links[i]}` + lastPart;
-        }else{
-            listItems += withOutHttp + secondPart + `${links[i]}` + lastPart;
+        if (links[i].includes(protocol)) {
+            listItems += firstPart + links[i] + secondPart + links[i] + lastPart;
+        } else {
+            listItems += withOutHttp + withOutHttp2 + links[i] + lastPart;
         }
-    }
-    listElement.innerHTML = listItems;
+    };
+    while (listElement.firstChild){
+        listElement.removeChild(listElement.firstChild);
+    };
+    listElement.appendChild(document.createRange().createContextualFragment(listItems));
 }
-
-
-
-class ListContainer extends HTMLElement {
-
-}
-
 
 function DownloadContainer(text, fileType, fileName) {
     var blob = new Blob([text], {
@@ -177,7 +169,6 @@ function DownloadContainer(text, fileType, fileName) {
         URL.revokeObjectURL(a.href);
     }, 1500);
 }
-
 
 function deleteList() {
     localStorage.clear();
