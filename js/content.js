@@ -4,58 +4,54 @@ let linksFromStorage = JSON.parse(localStorage.getItem("myLinks"));
 const downloadBTN = document.getElementById('download-btn');
 const deleteBTN = document.getElementById('del-btn');
 const saveBTN = document.getElementById('save-btn');
+const helpBTN = document.getElementById('help-btn');
 const noticeBTN = document.getElementById('notice-btn');
 const listElement = document.getElementById('tab-list');
 const inputField = document.getElementById('input-field');
 const errorLabel = document.getElementById('error-label');
-const helpBTN = document.getElementById('help-btn');
-const listParent = document.getElementById('listParent');
 let note = "note";
+if (linksFromStorage) {
+    myLinks = linksFromStorage;
+    UpdateLinks(myLinks);
+};
 
-window.addEventListener('DOMContentLoaded', () => {
-    if (linksFromStorage) {
-        myLinks = linksFromStorage;
-        UpdateLinks(myLinks);
-    }
-
-    helpBTN.addEventListener("click", () => {
-        browser.tabs.create({
-            active: true,
-            url: "help.html",
-        }, null);
-    });
-
-    saveBTN.addEventListener('click', (tabs) => {
-        browser.tabs.query({
-            active: true,
-            currentWindow: true
-        }, function (tabs) {
-            myLinks.push(tabs[0].url);
-            localStorage.setItem("myLinks", JSON.stringify(myLinks));
-            UpdateLinks(myLinks);
-
-
-        });
-    })
-
-    noticeBTN.addEventListener('click', () => {
-        saveNotice();
-
-    })
-    deleteBTN.addEventListener('click', () => {
-        deleteList();
-
-    })
-    downloadBTN.addEventListener('click', () => {
-        downloadList();
-    })
-    browser.browserAction.onClicked.addListener(() => {
-        let clearing = browser.notifications.clear(note);
-        clearing.then(() => {
-            console.log("cleared");
-        });
-    })
+helpBTN.addEventListener("click", () => {
+    browser.tabs.create({
+        active: true,
+        url: "help.html",
+    }, null);
 });
+
+saveBTN.addEventListener('click', (tabs) => {
+    browser.tabs.query({
+        active: true,
+        currentWindow: true
+    }, function (tabs) {
+        myLinks.push(tabs[0].url);
+        localStorage.setItem("myLinks", JSON.stringify(myLinks));
+        UpdateLinks(myLinks);
+
+
+    });
+})
+
+noticeBTN.addEventListener('click', () => {
+    saveNotice();
+
+})
+deleteBTN.addEventListener('click', () => {
+    deleteList();
+
+})
+downloadBTN.addEventListener('click', () => {
+    downloadList();
+})
+browser.browserAction.onClicked.addListener(() => {
+    let clearing = browser.notifications.clear(note);
+    clearing.then(() => {
+        console.log("cleared");
+    });
+})
 
 
 
@@ -147,10 +143,11 @@ function UpdateLinks(links) {
             listItems += withOutHttp + withOutHttp2 + links[i] + lastPart;
         }
     };
-    while (listElement.firstChild){
+    while (listElement.firstChild) {
         listElement.removeChild(listElement.firstChild);
     };
-    listElement.appendChild(document.createRange().createContextualFragment(listItems));
+    const list = listItems;
+    listElement.appendChild(document.createRange().createContextualFragment(list));
 }
 
 function DownloadContainer(text, fileType, fileName) {
