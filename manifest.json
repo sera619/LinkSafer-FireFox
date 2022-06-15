@@ -1,7 +1,7 @@
 {
 	"manifest_version": 2,
 	"name": "LinkSafer",
-	"version": "1.0.4",
+	"version": "1.1.4",
 	"description": "A small extension to manage notes and temporary links",
 	"applications": {
 		"gecko": {

@@ -14,4 +14,5 @@ If you use this addon, pls take a second and let some stars there =). Thanks!
 
 #### Preview ####
 
-![Screenshot](https://github.com/sera619/LinkSafer-FireFox/blob/master/assets/Screen1.png?raw=true)
+![Screenshot](assets/screen2-newui.png)
+![Screenshot2](assets/helppage.png)
