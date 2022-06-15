@@ -53,74 +53,38 @@ browser.browserAction.onClicked.addListener(() => {
     });
 })
 
-
-
-
 function downloadList() {
-    if (myLinks != []) {
+    console.log(myLinks.length);
+    if (myLinks.length <= 0) {
+        browser.notifications.create(note, {
+            type: 'basic',
+            iconUrl: "assets/icon/blueicon_256.png",
+            title: "ERROR 3o3",
+            message: "You havent saved any notice or link, cannot download empty list!\nPlease save a note or a link before download.\nS3R43o3"
+        })
+    } else {
         const header = 'Your List of Links from LinkSafer\nThanks for enjoying my software.\nS3R43o3\n\n';
         var today = new Date();
         var time = today.getDay() + "." + today.getMonth() + "." + today.getFullYear() + " " + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
         const footer = '\n\nFile created at:\n' + time;
         DownloadContainer(header + myLinks.join("\n") + footer, "text/list", 'LinkSafer-List.txt');
-
-    } else {
-        browser.notifications.create(note, {
-            type: "basic",
-            iconUrl: "assets/icon/Foursquare-icon.png",
-            title: "ERROR 3o3",
-            message: "Your List is empty, cant download empty value!"
-        })
-
     }
 
 }
-
-
-function errorNoInput() {
-    if (!window.Notification) {
-        console.log("Browser does not support notifications");
-    } else {
-        if (Notification.permission === "granted") {
-            var noteUser = new Notification("ERROR 3o3", {
-                body: "Your Inputfield is empty, cant save empty value!",
-                icon: "assets/icon/blueicon_256.png",
-            });
-            notifications.create(noteUser);
-        } else {
-            Notification.requestPermission()
-                .then(function (p) {
-                    if (p === "granted") {
-                        var noteUser2 = new Notification("ERROR!", {
-                            body: "Your Inputfield is empty, cant save empty value!",
-                            icon: "assets/icon/blueicon_256.png",
-                        });
-                        notifications.create(noteUser2);
-                    } else {
-                        errorLabel.innerText = "User blocked notifications";
-                    }
-                })
-                .catch(function (err) {
-                    console.error(err);
-                })
-        };
-    }
-}
-
 
 function saveNotice() {
-    if (inputField.value == "") {
+    if (inputField.value === "") {
         browser.notifications.create(note, {
             type: "basic",
             iconUrl: "assets/icon/blueicon_256.png",
             title: "ERROR 3o3",
-            message: "Your Inputfield is empty, cant save empty value!"
-
+            message: "Your Inputfield is empty, cant save empty value!\nPlease save a note before click 'Notice'.\nS3R43o3"
         })
     } else {
         myLinks.push(inputField.value);
         localStorage.setItem("myLinks", JSON.stringify(myLinks));
         UpdateLinks(myLinks);
+        inputField.value = "";
     }
 }
 
@@ -131,13 +95,16 @@ function saveNotice() {
 function UpdateLinks(links) {
     const firstPart = "<li><a id='a' style='overflow: hidden; text-decoration: underline;' target='_blank' href='";
     const secondPart = "'><br/>";
-    const lastPart = '</a></li>';
+    const lastPart = "</a></li>";
     const protocol = "http";
-    const withOutHttp = "<li><a id='a' style='overflow: hidden; text-decoration: none;' ";
+    const ab = 'about';
+    const pa = 'page';
+    const dev = 'dev';
+    const withOutHttp = "<li></br><a id='a' style='overflow: hidden; text-decoration: none;' ";
     const withOutHttp2 = "><br/>";
     var listItems = "";
     for (let i = 0; i < links.length; i++) {
-        if (links[i].includes(protocol)) {
+        if (links[i].startsWith(protocol) || links[i].startsWith(ab) || links[i].startsWith(pa) || links[i].startsWith(dev)) {
             listItems += firstPart + links[i] + secondPart + links[i] + lastPart;
         } else {
             listItems += withOutHttp + withOutHttp2 + links[i] + lastPart;
