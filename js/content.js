@@ -102,7 +102,7 @@ function UpdateLinks(links) {
     const dev = 'dev';
     const withOutHttp = "<li></br><a id='a' style='overflow: hidden; text-decoration: none;' ";
     const withOutHttp2 = "><br/>";
-    var listItems = "";
+    let listItems = "";
     for (let i = 0; i < links.length; i++) {
         if (links[i].startsWith(protocol) || links[i].startsWith(ab) || links[i].startsWith(pa) || links[i].startsWith(dev)) {
             listItems += firstPart + links[i] + secondPart + links[i] + lastPart;
@@ -114,7 +114,10 @@ function UpdateLinks(links) {
         listElement.removeChild(listElement.firstChild);
     };
     const list = listItems;
-    listElement.appendChild(document.createRange().createContextualFragment(list));
+    const range = document.createRange();
+    range.selectNode(document.getElementById('tab-list'));
+    var fragm = range.createContextualFragment(list);
+    listElement.appendChild(fragm);
 }
 
 function DownloadContainer(text, fileType, fileName) {
