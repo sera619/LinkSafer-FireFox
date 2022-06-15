@@ -265,11 +265,17 @@ h1{
     color: #00ccff;
 
 }
+#version-text{
+    color: rgba(116, 114, 114, 0.78);
 
+
+
+}
 
 
 .social-buttons{
-
+    display: flex;
+    flex-direction: row;
 
     justify-content:center;
     align-items: center;
